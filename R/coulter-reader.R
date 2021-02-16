@@ -30,7 +30,7 @@ read_accucomp = function(x, module = "all"){
   volumes.start = c("Number", "Cell Volume")
   volumes.end = c("Bin Number", "Bin Diameter")
 
-  ## load modules
+  ## load modules (= Subtables of AccuComp file)
   settings = get_module(x, settings.start, settings.end, c("option", "value"), clean = TRUE, tidy = FALSE)
   summary = get_module(x, summary.start, summary.end, c("var", "value"), clean = TRUE, tidy = FALSE)
   sizes_absolute = get_module(x, sizes_absolute.start, sizes_absolute.end, c("bin", "size"), clean = TRUE) %>% head(., -1) %>% tail(., -1)

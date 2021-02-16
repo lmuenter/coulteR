@@ -11,5 +11,4 @@ get_measurements(x)
 }
 \description{
 Load Measurements from AccuComp-table (last element in file).
-importFrom stringr str_split
 }

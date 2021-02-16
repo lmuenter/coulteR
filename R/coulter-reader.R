@@ -11,6 +11,7 @@
 #' Read Coulter Results
 #'
 #' This function reads AccuComp-tables of Coulter Counter
+#' @import stringr
 #' @param x Path to Accucomp .XLS file
 #' @param module Set if you want a specific module (A subtable). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all
 #' @return A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)
@@ -106,7 +107,7 @@ get_subtable = function(x, start, end, varnames, clean = FALSE, tidy = TRUE){
 #' Get Measurements from AccuComp-table
 #'
 #' Load Measurements from AccuComp-table (last element in file).
-#' importFrom stringr str_split
+#' @importFrom stringr str_split
 #' @param x filepath to AccuComp-table
 get_measurements = function(x){
 

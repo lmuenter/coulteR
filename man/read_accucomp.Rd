@@ -9,7 +9,7 @@ read_accucomp(x, module = "all")
 \arguments{
 \item{x}{Path to Accucomp .XLS file}
 
-\item{module}{Set if you want a specific module (A subtable). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all}
+\item{module}{Set if you want a specific module (A module). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all}
 }
 \value{
 A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)

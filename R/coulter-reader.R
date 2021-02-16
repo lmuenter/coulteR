@@ -20,15 +20,15 @@ read_accucomp = function(x, module = "all"){
 
   ## check input
   if(length(x) > 1){
-    stop("Error: More than one input file provided. Please give ONE filepath (chr)")
+    stop(paste("Error: More than one input file provided. Please give ONE filepath (chr)"))
   }
 
   if(!is.character(x)){
-    stop("Error: Input must be filepath (chr)")
+    stop(paste("Error: Input must be filepath (chr)"))
   }
 
   if(length(module) > 1){
-    stop("Error: Option 'module' - More than one input given. Option 'module' should be one of c('all', ''settings', 'summary', 'sizes_absolute', 'sizes_summary', 'volumes')")
+    stop(paste("Error: Option 'module' - More than one input given. Option 'module' should be one of c('all', ''settings', 'summary', 'sizes_absolute', 'sizes_summary', 'volumes')"))
   }
 
   ## start- and endpoints for overview tables (HARDCODED)

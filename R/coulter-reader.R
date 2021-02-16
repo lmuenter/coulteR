@@ -16,7 +16,7 @@
 #' @param module Set if you want a specific module (A subtable). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all
 #' @return A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)
 #' @export
-read_coulter = function(x, module = "all"){
+read_accucomp = function(x, module = "all"){
 
   ## start- and endpoints for overview tables (HARDCODED)
   settings.start = "File name:"

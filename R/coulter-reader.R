@@ -62,6 +62,7 @@ read_accucomp = function(x, module = "all"){
   measurements = get_measurements(x) %>%
     mutate_if(is.character, as.numeric)
 
+  ## prepare output
   if(module == "all"){
 
     out = list(

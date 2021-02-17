@@ -60,7 +60,7 @@ read_accucomp = function(x, module = "all"){
     mutate("volume" = as.numeric(volume))
 
   measurements = get_measurements(x) %>%
-    mutate_if(is.numeric, as.character)
+    mutate_if(is.character, as.numeric)
 
   if(module == "all"){
 

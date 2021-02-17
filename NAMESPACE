@@ -3,7 +3,6 @@
 export("%>%")
 export(listnames_to_column)
 export(read_accucomp)
-export(read_accucomp2)
 import(dplyr)
 importFrom(magrittr,"%>%")
 importFrom(stringr,str_split)

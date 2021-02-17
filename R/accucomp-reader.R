@@ -17,7 +17,7 @@
 #' @param module Set if you want a specific module (A module). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all
 #' @return A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)
 #' @export
-read_accucomp2 = function(x, module = "all"){
+read_accucomp = function(x, module = "all"){
 
   ## check input
   if(length(x) > 1){
@@ -34,7 +34,7 @@ read_accucomp2 = function(x, module = "all"){
 
   if(module != "all" & module != "measurements"){
 
-    out = get_module2(x,
+    out = get_module(x,
                      start   = modules.dict[[module]]$start,
                      end     = modules.dict[[module]]$end,
                      varname = modules.dict[[module]]$vars,
@@ -45,14 +45,14 @@ read_accucomp2 = function(x, module = "all"){
 
   } else if(module == "measurements"){
 
-    out = get_measurements2(x) %>%
+    out = get_measurements(x) %>%
       mutate_if(is.character, as.numeric)
 
   } else {
 
     out = lapply(modules, function(a,y,z){
 
-      get_module2(z,
+      get_module(z,
                  start   = y[[a]]$start,
                  end     = y[[a]]$end,
                  varname = y[[a]]$vars,
@@ -64,7 +64,7 @@ read_accucomp2 = function(x, module = "all"){
     }, y = modules.dict, z = x) %>%
       setNames(modules)
 
-    out$measurements = get_measurements2(x) %>%
+    out$measurements = get_measurements(x) %>%
       mutate_if(is.character, as.numeric)
 
   }
@@ -84,7 +84,7 @@ read_accucomp2 = function(x, module = "all"){
 #' @param tidy Is input tidy (i.e. two variable names are present?)
 #' @param trim Should output table be trimmed? Default NULL, else two-element numeric vector (specifying head and tail cutoff)
 #' @param values_numeric Should values (second column) be transformed to numeric values?
-get_module2 = function(x, start, end, varnames, clean = FALSE, tidy = TRUE, trim = NULL, values_numeric = FALSE){
+get_module = function(x, start, end, varnames, clean = FALSE, tidy = TRUE, trim = NULL, values_numeric = FALSE){
 
   ## extract
   file = read.delim(x, sep = "\t", stringsAsFactors = FALSE, na.strings = "")
@@ -140,7 +140,7 @@ get_module2 = function(x, start, end, varnames, clean = FALSE, tidy = TRUE, trim
 #' Load Measurements from AccuComp-table (last element in file).
 #' @importFrom stringr str_split
 #' @param x filepath to AccuComp-table
-get_measurements2 = function(x){
+get_measurements = function(x){
 
   start = "Bin Number"
   varnames = c("bin", "diameter.bin.um", "number.diff", "number.diff.ml", "volume.diff.perc")

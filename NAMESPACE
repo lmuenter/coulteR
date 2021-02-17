@@ -2,6 +2,6 @@
 
 export("%>%")
 export(read_accucomp)
-import(stringr)
+import(dplyr)
 importFrom(magrittr,"%>%")
 importFrom(stringr,str_split)

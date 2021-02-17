@@ -11,7 +11,7 @@
 #' Read Coulter Results
 #'
 #' This function reads AccuComp-tables of Coulter Counter
-#' @import stringr
+#' @import dplyr
 #' @param x Path to Accucomp .XLS file
 #' @param module Set if you want a specific module (A module). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all
 #' @return A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)
@@ -45,11 +45,11 @@ read_accucomp = function(x, module = "all"){
 
   ## load modules (= Subtables of AccuComp file)
   settings = get_module(x, settings.start, settings.end, c("option", "value"), clean = TRUE, tidy = FALSE)
-  summary = get_module(x, summary.start, summary.end, c("var", "value"), clean = TRUE, tidy = FALSE)
-  sizes_absolute = get_module(x, sizes_absolute.start, sizes_absolute.end, c("bin", "size"), clean = TRUE) %>% head(., -1) %>% tail(., -1)
-  sizes_summary = get_module(x, sizes_summary.start, sizes_summary.end, c("size", "p.size"), clean = TRUE) %>% head(., -1) %>% tail(., -1)
-  volumes = get_module(x, volumes.start, volumes.end, c("number", "volume"), clean = TRUE) %>% head(., -1) %>% tail(., -2)
-  measurements = get_measurements(x)
+  summary = get_module(x, summary.start, summary.end, c("var", "value"), clean = TRUE, tidy = FALSE) %>% mutate("value" = as.numeric(value))
+  sizes_absolute = get_module(x, sizes_absolute.start, sizes_absolute.end, c("bin", "size"), clean = TRUE) %>% head(., -1) %>% tail(., -1) %>% mutate("size" = as.numeric(value))
+  sizes_summary = get_module(x, sizes_summary.start, sizes_summary.end, c("size", "p.size"), clean = TRUE) %>% head(., -1) %>% tail(., -1) %>% mutate("p.size" = as.numeric(value))
+  volumes = get_module(x, volumes.start, volumes.end, c("number", "volume"), clean = TRUE) %>% head(., -1) %>% tail(., -2) %>% mutate("volume" = as.numeric(value))
+  measurements = get_measurements(x) %>% mutate_if(is.numeric, as.character)
 
   if(module == "all"){
 

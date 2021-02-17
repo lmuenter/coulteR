@@ -30,7 +30,7 @@ modules.dict = list(
   list(
 
     "start" = "From",
-    "end"   = "Specific Surf. Area:",
+    "end"   = "d90:",
     "tidy"  = FALSE,
     "vars"  = c("var", "value"),
     "trim"  = NULL,

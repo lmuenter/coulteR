@@ -76,4 +76,4 @@ modules.dict = list(
 modules.dict = setNames(object = modules.dict, modules)
 
 ## make available
-usethis::use_data(modules, modules.dict, internal = TRUE, overwrite = TRUE)
+usethis::use_data(modules, modules.dict, internal = TRUE)

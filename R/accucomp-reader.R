@@ -88,6 +88,13 @@ get_module = function(x, start, end, varnames, clean = FALSE, tidy = TRUE, trim 
 
   ## extract
   file = read.delim(x, sep = "\t", stringsAsFactors = FALSE, na.strings = "")
+
+  if(ncol(file) < 2){
+
+    file = read.delim(x, sep = ",", stringsAsFactors = FALSE, na.strings = "")
+
+  }
+
   file[[1]] = gsub("[ ]+$", "", file[[1]])
   file[[2]] = gsub("[ ]+$", "", file[[2]])
 

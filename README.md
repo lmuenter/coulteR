@@ -17,16 +17,16 @@ In this demonstration, we will extract the `summary` module from our AccuComp-ta
 1. Load the required libraries:
 
 ``` R
-library(tidyverse) # used to generate naming of loaded files and for the pipe
+library(tidyverse) # used for naming of list objects
 library(coulteR)
 ```
 
 2. Bulk Read your datasets.
 
 ``` R
-input = "data"                               # Path to folder containing AccuComp-datasets
+input = "data"                                  # Path to folder with AccuComp-datasets
 
-files = list.files(input, full.names = TRUE) # list full filenames of datasets
+files = list.files(input, full.names = TRUE)    # list filepaths
 
 filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
   gsub(".XLS", "", .) %>%                       # remove extension

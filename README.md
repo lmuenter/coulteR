@@ -23,25 +23,25 @@ In this demonstration, we will extract the `summary` module from our AccuComp-ta
 
 2. List your datasets
 
-        ``` R
-        input = "data"                                  # Path to folder with AccuComp-datasets
+    ``` R
+    input = "data"                                  # Path to folder with AccuComp-datasets
 
-        files = list.files(input, full.names = TRUE)    # list filepaths
-        ```
+    files = list.files(input, full.names = TRUE)    # list filepaths
+    ```
 
 3. From each dataset, load the module `summary` into a list of dataframes
 
-        ``` R
-        summaries.ls = lapply(files, read_accucomp, module = "summary")
-        ```
+    ``` R
+    summaries.ls = lapply(files, read_accucomp, module = "summary")
+    ```
 
 4. Generate IDs from file names. These are later used to tidy the data
 
-        ``` R
-        filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
+    ``` R
+    filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
         gsub(".XLS", "", .) %>%                       # remove extension
         gsub("#", "", .)                              # delete special characters
-        ```
+    ```
 
 5. Concatenate the dataframes. For this, we give each sample a unique ID (the sample name).
     ``` R

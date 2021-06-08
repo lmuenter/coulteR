@@ -5,7 +5,7 @@ First, per-sample datasets are exported into a readable format (.xls) using `Acc
 
 # Installation
 
-Install from the github-repository:
+Install from GitHub:
 
 ``` R
 devtools::install_github("lmuenter/coulteR")

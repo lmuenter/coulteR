@@ -16,47 +16,47 @@ In this demonstration, we will extract the `summary` module from our AccuComp-ta
 
 1. Load the required libraries:
 
-``` R
-library(tidyverse) # used for naming of list objects
-library(coulteR)
-```
+    ``` R
+    library(tidyverse) # used for naming of list objects
+    library(coulteR)
+    ```
 
-2. Bulk Read your datasets.
+2. List your datasets
 
-``` R
-input = "data"                                  # Path to folder with AccuComp-datasets
+        ``` R
+        input = "data"                                  # Path to folder with AccuComp-datasets
 
-files = list.files(input, full.names = TRUE)    # list filepaths
-```
+        files = list.files(input, full.names = TRUE)    # list filepaths
+        ```
 
 3. From each dataset, load the module `summary` into a list of dataframes
 
-``` R
-summaries.ls = lapply(files, read_accucomp, module = "summary")
-```
+        ``` R
+        summaries.ls = lapply(files, read_accucomp, module = "summary")
+        ```
 
 4. Generate IDs from file names. These are later used to tidy the data
 
-``` R
-filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
-  gsub(".XLS", "", .) %>%                       # remove extension
-  gsub("#", "", .)                              # delete special characters
-```
+        ``` R
+        filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
+        gsub(".XLS", "", .) %>%                       # remove extension
+        gsub("#", "", .)                              # delete special characters
+        ```
 
 5. Concatenate the dataframes. For this, we give each sample a unique ID (the sample name).
-``` R
-summaries.df = summaries.ls %>%
-  setNames(filenames) %>%              # name each dataset after its sample
-  listnames_to_column("sample") %>%    # introduce a new column `sample`
-  do.call("rbind", .) %>% 
-```
+    ``` R
+    summaries.df = summaries.ls %>%
+      setNames(filenames) %>%              # name each dataset after its sample
+      listnames_to_column("sample") %>%    # introduce a new column `sample`
+      do.call("rbind", .) %>% 
+    ```
 
 6. Extract Mean Particle Size. In this example, we only want to retain the mean particle size per sample.
-``` R
-means.df = summaries.df %>%
-  filter(var == "Mean") %>%  # retain only mean particle size
-  select(-var)               # optional: delete column `var`
-```
+    ``` R
+    means.df = summaries.df %>%
+      filter(var == "Mean") %>%  # retain only mean particle size
+      select(-var)               # optional: delete column `var`
+    ```
 
 # Options
 When using `coulteR::read_accucomp()`, other modules can be imported by specifying the parameter `module`. These are:

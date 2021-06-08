@@ -27,31 +27,35 @@ library(coulteR)
 input = "data"                                  # Path to folder with AccuComp-datasets
 
 files = list.files(input, full.names = TRUE)    # list filepaths
+```
 
+3. From each dataset, load the module `summary` into a list of dataframes
+
+``` R
+summaries.ls = lapply(files, read_accucomp, module = "summary")
+```
+
+4. Generate IDs from file names. These are later used to tidy the data
+
+``` R
 filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
   gsub(".XLS", "", .) %>%                       # remove extension
   gsub("#", "", .)                              # delete special characters
-
 ```
 
-3. Load the module `summary` and build a tidy dataframe from individual samples.
-
+5. Concatenate the dataframes. For this, we give each sample a unique ID (the sample name).
 ``` R
-
-## Parse Datasets into a list of dataframes
-summaries.ls = lapply(files, read_accucomp, module = "summary") %>%
+summaries.df = summaries.ls %>%
   setNames(filenames) %>%              # name each dataset after its sample
   listnames_to_column("sample") %>%    # introduce a new column `sample`
-
-## concatenate dataframes
-summaries.df = summaries.ls %>%
   do.call("rbind", .) %>% 
+```
 
-## Extract Mean Particle Size
+6. Extract Mean Particle Size. In this example, we only want to retain the mean particle size per sample.
+``` R
 means.df = summaries.df %>%
   filter(var == "Mean") %>%  # retain only mean particle size
   select(-var)               # optional: delete column `var`
-
 ```
 
 # Options

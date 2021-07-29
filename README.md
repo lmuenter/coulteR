@@ -49,7 +49,7 @@ The latter dataframe contains information about the location of the peak, its ra
 We can now go on and plot our tracks with highlighted target peaks.
 
 ``` R
-ggtrack(measurements.df, measurements.peaks, N = 3, show.legend = FALSE)
+ggtrack(measurements.df, measurements.peaks, N = 4, show.legend = FALSE)
 
 ```
 ![](man/figs/Rplot.png)

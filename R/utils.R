@@ -8,7 +8,7 @@
 # author: Lukas Muenter
 # date: 17.02.2021
 
-#' Bulk Load
+#' Bulk Read
 #'
 #' Load accucomp-files in Bulk.
 #' @param path Full path to the directory containing accucomp-files
@@ -16,7 +16,7 @@
 #' @param dataframe Should Output be coerced to a dataframe? Default: `TRUE`. Note that this can only be done for modules which are not`"all"`
 #' @importFrom stringr str_extract
 #' @export
-bulk_load = function(path, module, dataframe = TRUE){
+bulk_read = function(path, module, dataframe = TRUE){
 
   ## test input
   if(!module %in% c("all", "settings", "summary", "size_absolute", "size_summary", "volume", "measurements")){

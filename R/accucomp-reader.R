@@ -14,8 +14,8 @@
 #' This function reads AccuComp-tables of Coulter Counter
 #' @import dplyr
 #' @param x Path to Accucomp .XLS file
-#' @param module Set if you want a specific module (A module). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all
-#' @return A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)
+#' @param module Set if you want a specific module (A module). Options: one of `c("all", "settings", "summary", "size_absolute", "size_summary", "volume", "measurements")`. Default: `"all"`
+#' @return If `module = "all"`, a `list` of `tibbles` (each module is a tibble) or a single `tibble` (if you specified a specific module)
 #' @export
 read_accucomp = function(x, module = "all"){
 

@@ -1,4 +1,4 @@
-# coulteR
+# coulteR <img src="man/figs/logo.png" align="right" width="120" />
 
 This package provides functions for importing data from the Z2 Coulter Counter into R. The aim is to make datasets generated with [AccuComp](https://www.beckman.de/flow-cytometry/software/383550) usable in R.
 First, per-sample datasets are exported into a readable format (.xls) using `AccuComp`. Next, these untidy datasets are parsed for semantic table boundaries. Lastly,  individual tables are extracted into tidy dataframes.

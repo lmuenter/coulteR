@@ -11,52 +11,48 @@ Install from GitHub:
 devtools::install_github("lmuenter/coulteR")
 ```
 
-## Usage
+## Basic Usage
 In this demonstration, we will extract the `summary` module from our AccuComp-tables. Per sample, this module provides an overview over general statistics of the experiment.
 
-1. Load the required libraries:
+``` R
+# load package
+library(coulteR)
 
-    ``` R
-    library(tidyverse) # used for naming of list objects
-    library(coulteR)
-    ```
+# set the path to your files
+exp_dir = "data/z2/"
 
-2. List your datasets
+# load all summarise
+summaries.df bulk_read(exp_dir, module = "summary")
+```
 
-    ``` R
-    input = "data"                                  # Path to folder with AccuComp-datasets
+We can then extract e.g. the mean particle size for our datasets.
+``` R
+means.df = summaries.df %>%
+  filter(var == "Mean") %>%  # retain only mean particle size
+  select(-var)               # optional: delete column `var`
+```
 
-    files = list.files(input, full.names = TRUE)    # list filepaths
-    ```
+## Peak detection and selection
+In addition to oberall sample statistics, `AccuComp`-datasets contain binned measurements of particle size. When a non-uniform distribution of particle sizes is present, e.g. with axenic cultures or coagulated cells, peak detection can be used to extract values (diameter and number of particles) for a specific peak. `{coulteR}` can be used this.
+``` R
+# Approximate diameter of target organisms (here in um)
+diameter = 3
 
-3. From each dataset, load the module `summary` into a list of dataframes
+# extract the module `measurements` for each dataset
+measurements.df = bulk_read(exp_dir, module = "measurements")
 
-    ``` R
-    summaries.ls = lapply(files, read_accucomp, module = "summary")
-    ```
+# Detect all peaks of the approximate target size
+measurements.peaks = bulk_peak_detect(measurements.df, diameter = diameter)
 
-4. Generate IDs from file names. These are later used to tidy the data
+```
+The latter dataframe contains information about the location of the peak, its range, as well as the number of cells within its curve.
+We can now go on and plot our tracks with highlighted target peaks.
 
-    ``` R
-    filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
-        gsub(".XLS", "", .) %>%                       # remove extension
-        gsub("#", "", .)                              # delete special characters
-    ```
+``` R
+ggtrack(measurements.df, measurements.peaks, N = 3, show.legend = FALSE)
 
-5. Concatenate the dataframes. For this, we give each sample a unique ID (the sample name).
-    ``` R
-    summaries.df = summaries.ls %>%
-      setNames(filenames) %>%              # name each dataset after its sample
-      listnames_to_column("sample") %>%    # introduce a new column `sample`
-      do.call("rbind", .) %>% 
-    ```
-
-6. Extract Mean Particle Size. In this example, we only want to retain the mean particle size per sample.
-    ``` R
-    means.df = summaries.df %>%
-      filter(var == "Mean") %>%  # retain only mean particle size
-      select(-var)               # optional: delete column `var`
-    ```
+```
+![](man/figs/Rplot.png)
 
 ## Options
 When using `coulteR::read_accucomp()`, other modules can be imported by specifying the parameter `module`. These are:

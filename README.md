@@ -1,9 +1,9 @@
-# Package `coulteR` 
+# coulteR
 
 This package provides functions for importing data from the Z2 Coulter Counter into R. The aim is to make datasets generated with [AccuComp](https://www.beckman.de/flow-cytometry/software/383550) usable in R.
 First, per-sample datasets are exported into a readable format (.xls) using `AccuComp`. Next, these untidy datasets are parsed for semantic table boundaries. Lastly,  individual tables are extracted into tidy dataframes.
 
-# Installation
+## Installation
 
 Install from GitHub:
 
@@ -11,7 +11,7 @@ Install from GitHub:
 devtools::install_github("lmuenter/coulteR")
 ```
 
-# Example Usage
+## Usage
 In this demonstration, we will extract the `summary` module from our AccuComp-tables. Per sample, this module provides an overview over general statistics of the experiment.
 
 1. Load the required libraries:
@@ -58,7 +58,7 @@ In this demonstration, we will extract the `summary` module from our AccuComp-ta
       select(-var)               # optional: delete column `var`
     ```
 
-# Options
+## Options
 When using `coulteR::read_accucomp()`, other modules can be imported by specifying the parameter `module`. These are:
 
 |module |content |value

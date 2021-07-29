@@ -9,10 +9,10 @@ read_accucomp(x, module = "all")
 \arguments{
 \item{x}{Path to Accucomp .XLS file}
 
-\item{module}{Set if you want a specific module (A module). Options: all, settings, summary, size_absolute, size_summary, volume, measurements. Default: all}
+\item{module}{Set if you want a specific module (A module). Options: one of `c("all", "settings", "summary", "size_absolute", "size_summary", "volume", "measurements")`. Default: `"all"`}
 }
 \value{
-A list of tibbles (each module is a tibble) or a single dataframe (if you specified a specific module)
+If `module = "all"`, a `list` of `tibbles` (each module is a tibble) or a single `tibble` (if you specified a specific module)
 }
 \description{
 This function reads AccuComp-tables of Coulter Counter

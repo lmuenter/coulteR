@@ -131,7 +131,7 @@ get_number_cells = function(df, starts,ends){
 #' @import dplyr
 #' @import ggplot2
 #' @export
-ggtracks = function(df, peaks = NULL, samples = NULL, seed = 123, N = 1, ...){
+ggtracks = function(df, peaks = NULL, samples = NULL, seed = 123, N = 1, show.legend = TRUE){
 
   if(is.null(samples)){
 
@@ -144,21 +144,21 @@ ggtracks = function(df, peaks = NULL, samples = NULL, seed = 123, N = 1, ...){
     filter(sample%in% samples)
 
   p = ggplot() +
-    geom_line(data = a, aes(x = diameter.bin.um, y = number.diff, color = sample), ...) +
+    geom_line(data = a, aes(x = diameter.bin.um, y = number.diff, color = sample), show.legend = show.legend) +
     theme_bw() +
     facet_wrap(sample ~ .)
 
   if(is.null(peaks)) {
 
-    ## filter the peak dataframe
-    b = peaks %>%
-      filter(samples %in% samples)
-
-    p +  geom_rect(data = b, aes(ymin=0, ymax=Inf, xmin=range.start, xmax=range.end), alpha = 0.1)
+    p
 
   } else {
 
-    p
+    ## filter the peak dataframe
+    b = peaks %>%
+      filter(sample %in% samples)
+
+    p  +  geom_rect(data = b, aes(ymin=0, ymax=Inf, xmin=range.start, xmax=range.end), alpha = 0.1)
 
   }
 

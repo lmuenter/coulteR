@@ -22,7 +22,7 @@ library(coulteR)
 exp_dir = "data/z2/"
 
 # load all summarise
-summaries.df bulk_read(exp_dir, module = "summary")
+summaries.df = bulk_read(exp_dir, module = "summary")
 ```
 
 We can then extract e.g. the mean particle size for our datasets.

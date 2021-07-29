@@ -66,8 +66,8 @@ When using `coulteR::read_accucomp()`, other modules can be imported by specifyi
 |`all`|All modules|A `list` of `dataframes`
 |`settings`|Experimental setup (device, duration, aperture etc.)|A two-column `dataframe`
 |`summary`|Summary Statistics of the sample (e.g. Mean Particle Size)|A two-column `dataframe`
-|`size_absolute`|Size Distribution|A two-column `dataframe`
-|`size_summary`|Another Size Distribution|A two-column `dataframe`
-|`volume` |Cell Volume (fL)|A two-column `dataframe`
+|`sizes_absolute`|Size Distribution|A two-column `dataframe`
+|`sizes_summary`|Another Size Distribution|A two-column `dataframe`
+|`volumes` |Cell Volume (fL)|A two-column `dataframe`
 |`measurements`|Measurement Distribution(binned)|A 7-column `dataframe`
 

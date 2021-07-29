@@ -12,16 +12,16 @@
 #'
 #' Load accucomp-files in Bulk.
 #' @param path Full path to the directory containing accucomp-files
-#' @param module Set if you want a specific module (A module). Options: one of `c("all", "settings", "summary", "size_absolute", "size_summary", "volume", "measurements")`. Default: `"all"`
+#' @param module Set if you want a specific module (A module). Options: one of `c("all", "settings", "summary", "sizes_absolute", "sizes_summary", "volumes", "measurements")`. Default: `"all"`
 #' @param dataframe Should Output be coerced to a dataframe? Default: `TRUE`. Note that this can only be done for modules which are not`"all"`
 #' @importFrom stringr str_extract
 #' @export
 bulk_read = function(path, module, dataframe = TRUE){
 
   ## test input
-  if(!module %in% c("all", "settings", "summary", "size_absolute", "size_summary", "volume", "measurements")){
+  if(!module %in% c("all", "settings", "summary", "sizes_absolute", "sizes_summary", "volumes", "measurements")){
 
-    stop("Error: module not recognised. Please choose one of: `c('all', 'settings', 'summary', 'size_absolute', 'size_summary', 'volume', 'measurements'`")
+    stop("Error: module not recognised. Please choose one of: `c('all', 'settings', 'summary', 'sizes_absolute', 'size_summary', 'volume', 'measurements'`")
 
   }
 

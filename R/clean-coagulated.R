@@ -128,7 +128,7 @@ get_number_cells = function(df, starts,ends){
 #' @param N Number of plots to be randomly selected. Default: 9
 #' @param ... Other variables passed on to geom_line
 #' @return A `ggplot`-object
-#' @import dpylr
+#' @import dplyr
 #' @import ggplot2
 #' @export
 ggtracks = function(df, peaks = NULL, samples = NULL, seed = 123, N = 1, ...){

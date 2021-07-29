@@ -3,7 +3,7 @@ Type: Package
 Title: Make AccuComp-datasets readable in R
 Version: 0.1.0
 Author: Lukas Muenter
-Maintainer: Lukas Muenter
+Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT

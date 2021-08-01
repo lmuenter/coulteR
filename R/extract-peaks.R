@@ -19,7 +19,8 @@
 #' @param full_df Should all peaks be reported? default = `FALSE`
 #' @importFrom dplyr group_by
 #' @importFrom dplyr group_split
-#' @return A `dataframe`.#' @export
+#' @return A `dataframe`.
+#' @export
 bulk_peak_detect = function(df, diameter, full_df = FALSE){
 
   if(!is.data.frame(df)){

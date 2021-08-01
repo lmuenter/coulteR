@@ -14,7 +14,7 @@ bulk_peak_detect(df, diameter, full_df = FALSE)
 \item{full_df}{Should all peaks be reported? default = `FALSE`}
 }
 \value{
-A `dataframe`.#' @export
+A `dataframe`.
 }
 \description{
 A wrapper around `coulteR::detect_peaks`. Per group in a dataframe with identifiers, peaks are reported.

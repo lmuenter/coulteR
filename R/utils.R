@@ -35,7 +35,7 @@ bulk_read = function(path, module, dataframe = TRUE){
   ## generate IDs from filenames
   filenames = files %>% str_extract("[^/]+$") %>% # retain only filename
     gsub(".XLS", "", .) %>%                       # remove extension
-    gsub("#", "", .)                              # delete special characters
+    gsub(".=#Z2", "", .)                              # delete special characters
 
   ## if module is not a list (i.e. in `module = "all"`), concatenate dataframes with an ID
   if(module != "all" & dataframe == TRUE){

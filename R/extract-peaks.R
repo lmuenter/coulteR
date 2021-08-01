@@ -1,10 +1,10 @@
 ################################
 #
-# Anticoagulate
+# Extract Peaks
 #
 ################################
 
-# purpose: Cleaning coagulated cells using a known diameter and peak finder
+# purpose: Extract a target peak using an a priori diameter
 # author: Lukas Muenter
 # date: 29.07.2021
 
@@ -19,8 +19,7 @@
 #' @param full_df Should all peaks be reported? default = `FALSE`
 #' @importFrom dplyr group_by
 #' @importFrom dplyr group_split
-#' @return A `dataframe`.
-#' @export
+#' @return A `dataframe`.#' @export
 bulk_peak_detect = function(df, diameter, full_df = FALSE){
 
   if(!is.data.frame(df)){
@@ -50,6 +49,8 @@ bulk_peak_detect = function(df, diameter, full_df = FALSE){
 #' @importFrom dplyr pull
 #' @importFrom dplyr rename
 #' @importFrom pracma findpeaks
+#' @importFrom Hmisc wtd.mean
+#' @importFrom Hmisc wtd.var
 #' @export
 peak_detect = function(df, diameter, full_df = FALSE){
 
@@ -69,6 +70,13 @@ peak_detect = function(df, diameter, full_df = FALSE){
   peaks$range.start = df$diameter.bin.um[peaks$bin.start]
   peaks$range.end = df$diameter.bin.um[peaks$bin.end]
 
+  ## get weighted mean of peaks
+  #peaks.wtdmean = wtd.mean(df$diameter.bin.um[peaks$bin.start], weights = df$number.diff[peaks$bin.start])
+  peaks$wtdmean = get_wtd_mean(df, peaks)
+
+  ## get weighted sd of means
+  peaks$wtdsd = get_wtd_sd(df, peaks)
+
   ## get number of cells in distribution
   peaks$n.cells = get_number_cells(df, starts = peaks$bin.start, ends = peaks$bin.end)
 
@@ -78,7 +86,7 @@ peak_detect = function(df, diameter, full_df = FALSE){
 
       peaks %>%
         filter(target == TRUE) %>%
-        select(sample, "peak" = diameter.bin.um, range.start, range.end, n.cells)
+        select(sample, "peak" = diameter.bin.um, range.start, range.end, n.cells, wtdmean, wtdsd)
 
     )
 
@@ -115,6 +123,38 @@ get_number_cells = function(df, starts,ends){
   Map(":", starts, ends) %>%
     lapply(function(x,y) sum(df$number.diff[x]),y = df) %>%
     do.call("c", .)
+
+}
+
+#' Get weighted means
+#' Computes weighted means for all detected peaks
+#' @param df A `measurements`-module
+#' @param peaks A `peaks` dataframe
+#' @return A numeric `vector`
+get_wtd_mean = function(df, peaks){
+
+  lapply(c(1:nrow(peaks)), function(x,y,z)
+    wtd.mean(y$diameter.bin.um[c(x$bin.start[z]:x$bin.end[z])],
+             weights = y$number.diff[c(x$bin.start[z]:x$bin.end[z])]),
+    x = peaks,
+    y = df) %>% do.call("c", .)
+
+}
+
+#' Get weighted SDs
+#' Computes weighted standard deviations for all detected peaks
+#' @param df A `measurements`-module
+#' @param peaks A `peaks` dataframe
+#' @return A numeric `vector`
+get_wtd_sd = function(df, peaks){
+
+  lapply(c(1:nrow(peaks)), function(x,y,z)
+    sqrt(
+      wtd.var(y$diameter.bin.um[c(x$bin.start[z]:x$bin.end[z])],
+              weights = y$number.diff[c(x$bin.start[z]:x$bin.end[z])])
+    ),
+    x = peaks,
+    y = df) %>% do.call("c", .)
 
 }
 
@@ -158,9 +198,11 @@ ggtracks = function(df, peaks = NULL, samples = NULL, seed = 123, N = 1, show.le
     b = peaks %>%
       filter(sample %in% samples)
 
-    p  +  geom_rect(data = b, aes(ymin=0, ymax=Inf, xmin=range.start, xmax=range.end), alpha = 0.1)
+    p  +  geom_rect(data = b, aes(ymin=0, ymax=Inf, xmin=range.start, xmax=range.end), alpha = 0.1) +
+      geom_vline(data = b, aes(xintercept = wtdmean)) +
+      geom_vline(data = b, aes(xintercept = wtdmean + wtdsd), linetype = "dotted") +
+      geom_vline(data = b, aes(xintercept = wtdmean - wtdsd), linetype = "dotted")
 
   }
-
 
 }

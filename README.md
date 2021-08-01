@@ -1,7 +1,7 @@
 # coulteR <img src="man/figs/logo.png" align="right" width="120" />
 
 This package provides functions for importing data from the Z2 Coulter Counter into R. The aim is to make datasets generated with [AccuComp](https://www.beckman.de/flow-cytometry/software/383550) usable in R.
-First, per-sample datasets are exported into a readable format (.xls) using `AccuComp`. Next, these untidy datasets are parsed for semantic table boundaries. Lastly,  individual tables are extracted into tidy dataframes.
+First, per-sample datasets are exported into a readable format (.xls) using `AccuComp`. Next, these untidy datasets are parsed for semantic table boundaries. Lastly,  individual tables are extracted into tidy dataframes. For binned measurements of these datasets, this package additionally enables peak detection with an *a priori* particle diameter.
 
 ## Installation
 
@@ -45,7 +45,7 @@ measurements.df = bulk_read(exp_dir, module = "measurements")
 measurements.peaks = bulk_peak_detect(measurements.df, diameter = diameter)
 
 ```
-The latter dataframe contains information about the location of the peak, its range, as well as the number of cells within its curve.
+The latter dataframe contains information about the location of the peak, its range, as well as the number of cells within its curve. Additionally, `wtdmean` and `wtdsd` contain the weighted mean and standard deviation for this target peak. Hereby, the number of cells was used as weights to compute the mean particle diameter.
 We can now go on and plot our tracks with highlighted target peaks.
 
 ``` R

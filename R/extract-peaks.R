@@ -68,15 +68,15 @@ peak_detect = function(df, diameter, full_df = FALSE){
   peaks$target[get_nearest_peak(peaks$diameter.bin.um, diameter)] = TRUE
 
   ## get size ranges of peaks
-  peaks$range.start = df$diameter.bin.um[peaks$bin.start]
-  peaks$range.end = df$diameter.bin.um[peaks$bin.end]
+  peaks$d.range.start = df$diameter.bin.um[peaks$bin.start]
+  peaks$d.range.end = df$diameter.bin.um[peaks$bin.end]
 
   ## get weighted mean of peaks
   #peaks.wtdmean = wtd.mean(df$diameter.bin.um[peaks$bin.start], weights = df$number.diff[peaks$bin.start])
-  peaks$wtdmean = get_wtd_mean(df, peaks)
+  peaks$d.wtdmean = get_wtd_mean(df, peaks)
 
   ## get weighted sd of means
-  peaks$wtdsd = get_wtd_sd(df, peaks)
+  peaks$d.wtdsd = get_wtd_sd(df, peaks)
 
   ## get number of cells in distribution
   peaks$n.cells = get_number_cells(df, starts = peaks$bin.start, ends = peaks$bin.end)
@@ -87,7 +87,7 @@ peak_detect = function(df, diameter, full_df = FALSE){
 
       peaks %>%
         filter(target == TRUE) %>%
-        select(sample, "peak" = diameter.bin.um, range.start, range.end, n.cells, wtdmean, wtdsd)
+        select(sample, "d.peak" = diameter.bin.um, d.range.start, d.range.end, n.cells, d.wtdmean, d.wtdsd)
 
     )
 
@@ -95,7 +95,7 @@ peak_detect = function(df, diameter, full_df = FALSE){
 
     return(
 
-      peaks %>% rename("peak" = diameter.bin.um)
+      peaks %>% rename("d.peak" = diameter.bin.um)
 
     )
 
@@ -199,10 +199,10 @@ ggtracks = function(df, peaks = NULL, samples = NULL, seed = 123, N = 1, show.le
     b = peaks %>%
       filter(sample %in% samples)
 
-    p  +  geom_rect(data = b, aes(ymin=0, ymax=Inf, xmin=range.start, xmax=range.end), alpha = 0.1) +
-      geom_vline(data = b, aes(xintercept = wtdmean)) +
-      geom_vline(data = b, aes(xintercept = wtdmean + wtdsd), linetype = "dotted") +
-      geom_vline(data = b, aes(xintercept = wtdmean - wtdsd), linetype = "dotted")
+    p  +  geom_rect(data = b, aes(ymin=0, ymax=Inf, xmin=d.range.start, xmax=d.range.end), alpha = 0.1) +
+      geom_vline(data = b, aes(xintercept = d.wtdmean)) +
+      geom_vline(data = b, aes(xintercept = d.wtdmean + d.wtdsd), linetype = "dotted") +
+      geom_vline(data = b, aes(xintercept = d.wtdmean - d.wtdsd), linetype = "dotted")
 
   }
 

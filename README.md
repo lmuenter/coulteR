@@ -33,12 +33,12 @@ means.df = summaries.df %>%
 ```
 
 ## Peak detection and selection
-In addition to overall sample statistics, `AccuComp`-datasets contain binned measurements of particle size. If a non-uniform distribution of particle sizes is present, e.g. with axenic cultures or coagulated cells, peak detection can be used to compute parameters of a specific distribution.
+In addition to overall sample statistics, `AccuComp`-datasets contain binned measurements of particle size. If a non-uniform distribution of particle sizes is present, e.g. with xenic cultures or coagulated cells, peak detection can be used to compute parameters of a specific distribution.
 
-![Figure 1: Peak detection of number of cells and binned diameter. First, the binned measurement track is extracted. Next, a target peak using an *a priori* diameter is detected. Lastly, distribution parameters are computed by weighting with the number of cells.](man/figs/peak_detection.png)
+![](man/figs/peak_detection.png)
 
 ### 1. Extract `measurements`
-We start by extracting the `measurements`-module. This module contains binned measurements of diameter, number of cells and a few other parameters of our sample.
+We start by extracting the `measurements`-module. It contains binned measurements of diameter, number of cells and a few other parameters of our sample.
 ``` R
 
 # extract the module `measurements` for each dataset

@@ -146,12 +146,14 @@ get_module = function(x, start, end, varnames, clean = FALSE, tidy = TRUE, trim 
 #'
 #' Load Measurements from AccuComp-table (last element in file).
 #' @importFrom stringr str_split
-#' @importFrom stringr str_count
 #' @param x filepath to AccuComp-table
 get_measurements = function(x){
 
   start = "Bin Number"
   varnames = c("bin", "diameter.bin.um", "number.diff", "number.diff.ml", "volume.diff.perc")
+
+  ## extract dataframe
+  file = readLines(x)
 
   ## find separator
   n.tab = file %>% paste(collapse = "") %>% str_count("\t")
@@ -164,8 +166,6 @@ get_measurements = function(x){
     sep = "\t"
   }
 
-  ## extract dataframe
-  file = readLines(x)
   idx = grep(start, file)
   file.df = file[idx:length(file)] %>%
     str_split(sep, simplify = TRUE) %>%
